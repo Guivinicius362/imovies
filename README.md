@@ -60,11 +60,11 @@ Projeto com fim de demonstração de arquitetura.
  
    Para testar a Page é só mockar o BLoC.
  
-   Outro ponto, nessa arquitetura se vc quiser vc pode testar o BLoC integrado com a tela, só mockar o repository e dai vc meio que tem um teste de integração.
+   Outro ponto, nessa arquitetura se vc quiser vc pode testar o BLoC integrado com a tela, só mockar o repository e manter a instancia real do BLoC e dai vc meio que tem um teste de integração.
  
 ## Libs:
  
-   Um dos principais pontos pelo qual eu escolhi as libs que eu escolhi é pq eu não gosto muito da ideia das libs gerando código pq prende muito se app a aquela lib
+   Um dos principais pontos pelo qual eu escolhi as libs que eu escolhi é pq eu não gosto muito da ideia das libs gerando código pq prende muito seu app a aquela lib
  
    get_it: eu particularmente gosto do get_it pq ele é simples e não gera código.
  
