@@ -64,13 +64,7 @@ class WideMovieCard extends StatelessWidget {
                     tag: movies[index].fullBackdropPath(),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
-                      child: Image(
-                        image: NetworkImage(
-                          movies[index].fullBackdropPath(),
-                        ),
-                        height: 220.0,
-                        fit: BoxFit.fill,
-                      ),
+                      child: getImage(),
                     ),
                   ),
                 ),
@@ -90,6 +84,21 @@ class WideMovieCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget getImage() {
+    if (movies[index].backdropPath != null) {
+      return Image(
+        image: NetworkImage(
+          movies[index].fullBackdropPath(),
+        ),
+        height: 220.0,
+        fit: BoxFit.fill,
+      );
+    }
+    return Container(
+      color: Colors.red,
     );
   }
 

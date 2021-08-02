@@ -11,6 +11,8 @@ class IMoviesStream<T> {
     _subject.add(value);
   }
 
+  T value() => _subject.value;
+
   void addError(Object? value) {
     if (value != null) {
       _subject.addError(value);

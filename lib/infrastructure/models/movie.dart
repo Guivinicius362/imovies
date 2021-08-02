@@ -3,7 +3,6 @@ class Movie {
   final bool adult;
   final String overview;
   final String? releaseDate;
-  final List<int> genreIds;
   final int id;
   final String originalTitle;
   final String originalLanguage;
@@ -19,7 +18,6 @@ class Movie {
     required this.adult,
     required this.overview,
     required this.releaseDate,
-    required this.genreIds,
     required this.id,
     required this.originalTitle,
     required this.originalLanguage,
@@ -41,16 +39,25 @@ class Movie {
         originalLanguage: json["original_language"] as String,
         title: json["title"] as String,
         backdropPath: json["backdrop_path"] as String?,
-        genreIds: [],
         popularity: json["popularity"] as double,
         voteCount: json["vote_count"] as int,
         video: json["video"] as bool,
         voteAverage: 0.0,
       );
 
-  String fullPosterPath() =>
-      "https://image.tmdb.org/t/p/w500/${this.posterPath}";
+  String fullPosterPath() {
+    if (this.posterPath != null) {
+      return "https://image.tmdb.org/t/p/w500/${this.posterPath}";
+    } else {
+      return "";
+    }
+  }
 
-  String fullBackdropPath() =>
-      "https://image.tmdb.org/t/p/w500/${this.backdropPath}";
+  String fullBackdropPath() {
+    if (this.backdropPath != null) {
+      return "https://image.tmdb.org/t/p/w500/${this.backdropPath}";
+    } else {
+      return "";
+    }
+  }
 }

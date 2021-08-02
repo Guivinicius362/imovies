@@ -51,6 +51,8 @@ Projeto com fim de demonstração de arquitetura.
    Nesse projeto acabei optando por seguir o padrão Robot conhecido principalmente no Android e como nomenclatura dos testes o padrão given_when_then
  
    Acho que o principal benefício dessa arquitetura com get_it + RxDart é que eu consigo testar todas as minhas layers sem muito trabalho.
+
+   <img src="screenshots/tests.png?raw=true" width="500">
   
    Para testar o service é só mockar o http.client.
  

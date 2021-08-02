@@ -10,7 +10,7 @@ final getIt = GetIt.instance;
 class PersonRepository {
   final PersonService _personService = getIt<PersonService>();
 
-  Future<List<Person>> getPopularMovies() async {
+  Future<List<Person>> getPopularPersons() async {
     final response = await _personService.getPopularPersons();
     var body = json.decode(response.body);
     TheMovieDBWrapper wrapper = TheMovieDBWrapper.fromJson(body);

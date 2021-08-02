@@ -1,16 +1,16 @@
 class Person {
-  final String profilePath;
+  final String? profilePath;
   final bool adult;
   final int id;
   final String name;
   final double popularity;
 
   Person({
-    required this.profilePath,
     required this.adult,
     required this.id,
     required this.name,
     required this.popularity,
+    this.profilePath,
   });
 
   static Person fromJson(Map<String, dynamic> json) => Person(
@@ -21,6 +21,11 @@ class Person {
         popularity: json["popularity"] as double,
       );
 
-  String fullProfilePath() =>
-      "https://image.tmdb.org/t/p/w500/${this.profilePath}";
+  String fullProfilePath() {
+    if (this.profilePath != null) {
+      return "https://image.tmdb.org/t/p/w500/${this.profilePath}";
+    } else {
+      return "";
+    }
+  }
 }

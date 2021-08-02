@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:imovies/design_system/design_system.dart';
 import 'package:shimmer/shimmer.dart';
 
-typedef String? HandleImageUrl(int index);
+typedef String HandleImageUrl(int index);
 typedef String? HandleTitle(int index);
 typedef void OnPressed(int index);
 
@@ -95,7 +95,7 @@ class CircularContentScroll extends StatelessWidget {
 
   Widget getImage(int index) {
     final imageUrl = handleImageUrl(index);
-    if (imageUrl == null) return SizedBox.expand();
+    if (imageUrl.isEmpty) return SizedBox.expand();
 
     return CircleAvatar(
       radius: 150.0,
@@ -112,9 +112,9 @@ class CircularContentScroll extends StatelessWidget {
         child: CircularContentScroll(
           list: [1, 2, 3],
           title: title,
-          imageHeight: 260.0,
-          imageWidth: 140.0,
-          handleImageUrl: (int index) => null,
+          imageHeight: 280.0,
+          imageWidth: 280.0,
+          handleImageUrl: (int index) => "",
           handleTitle: (int index) => null,
           onPressed: (int index) => null,
         ),

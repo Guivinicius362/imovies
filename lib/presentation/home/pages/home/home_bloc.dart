@@ -20,7 +20,7 @@ class HomeBloc {
       IMoviesStream<List<Movie>>();
 
   final IMoviesStream<List<Person>> popularPersons =
-      IMoviesStream<List<Person>>();
+      IMoviesStream<List<Person>>();  
 
   void getPopularMovies() => popularMovies.handleFuture(
         _movieRepo.getPopularMovies(),
@@ -35,6 +35,6 @@ class HomeBloc {
       );
 
   void getPopularPersons() => popularPersons.handleFuture(
-        _personRepo.getPopularMovies(),
+        _personRepo.getPopularPersons(),
       );
 }

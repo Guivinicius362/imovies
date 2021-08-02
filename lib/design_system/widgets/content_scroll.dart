@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:imovies/design_system/design_system.dart';
 import 'package:shimmer/shimmer.dart';
 
-typedef String? HandleImageUrl(int index);
+typedef String HandleImageUrl(int index);
 typedef void OnPressed(int index);
 
 class ContentScroll extends StatelessWidget {
@@ -78,7 +78,7 @@ class ContentScroll extends StatelessWidget {
 
   Widget? getImage(int index) {
     final imageUrl = handleImageUrl(index);
-    if (imageUrl == null) return null;
+    if (imageUrl.isEmpty) return null;
 
     return Image(
       image: NetworkImage(
@@ -97,7 +97,7 @@ class ContentScroll extends StatelessWidget {
           title: title,
           imageHeight: 260.0,
           imageWidth: 140.0,
-          handleImageUrl: (int index) => null,
+          handleImageUrl: (int index) => "",
           onPressed: (int index) => null,
         ),
       );

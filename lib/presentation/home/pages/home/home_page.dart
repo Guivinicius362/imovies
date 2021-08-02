@@ -12,7 +12,8 @@ import 'package:imovies/presentation/routes/arguments/movie_details_arg.dart';
 import 'package:imovies/presentation/routes/routes.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  final HomeBloc? bloc;
+  HomePage({Key? key, this.bloc}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -24,11 +25,12 @@ class _HomePageState extends State<HomePage> {
     viewportFraction: 0.8,
   );
 
-  final _bloc = getIt<HomeBloc>();
+  late final HomeBloc _bloc;
 
   @override
   void initState() {
     super.initState();
+    _bloc = widget.bloc ?? getIt<HomeBloc>();
     _bloc.getPopularMovies();
     _bloc.getTopRatedMovies();
     _bloc.getNowPlayingMovies();
@@ -87,7 +89,7 @@ class _HomePageState extends State<HomePage> {
           width: double.infinity,
           child: PageView.builder(
             controller: _pageController,
-            itemCount: 10,
+            itemCount: data.length,
             itemBuilder: (BuildContext context, int index) {
               final item = data;
               return WideMovieCard(
