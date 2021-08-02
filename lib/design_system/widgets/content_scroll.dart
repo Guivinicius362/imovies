@@ -3,6 +3,7 @@ import 'package:imovies/design_system/design_system.dart';
 import 'package:shimmer/shimmer.dart';
 
 typedef String? HandleImageUrl(int index);
+typedef void OnPressed(int index);
 
 class ContentScroll extends StatelessWidget {
   final List list;
@@ -10,11 +11,13 @@ class ContentScroll extends StatelessWidget {
   final double imageHeight;
   final double imageWidth;
   final HandleImageUrl handleImageUrl;
+  final OnPressed onPressed;
 
   ContentScroll({
     required this.list,
     required this.title,
     required this.handleImageUrl,
+    required this.onPressed,
     this.imageHeight = 260.0,
     this.imageWidth = 140.0,
   });
@@ -42,25 +45,28 @@ class ContentScroll extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: list.length,
             itemBuilder: (BuildContext context, int index) {
-              return Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: 10.0,
-                  vertical: 20.0,
-                ),
-                width: imageWidth,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black54,
-                      offset: Offset(0.0, 4.0),
-                      blurRadius: 6.0,
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: getImage(index),
+              return GestureDetector(
+                onTap: () => onPressed(index),
+                child: Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 10.0,
+                    vertical: 20.0,
+                  ),
+                  width: imageWidth,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black54,
+                        offset: Offset(0.0, 4.0),
+                        blurRadius: 6.0,
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: getImage(index),
+                  ),
                 ),
               );
             },
@@ -92,6 +98,7 @@ class ContentScroll extends StatelessWidget {
           imageHeight: 260.0,
           imageWidth: 140.0,
           handleImageUrl: (int index) => null,
+          onPressed: (int index) => null,
         ),
       );
 }

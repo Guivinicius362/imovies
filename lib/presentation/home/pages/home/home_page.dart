@@ -8,6 +8,8 @@ import 'package:imovies/presentation/home/constants/home_constants.dart';
 import 'package:imovies/design_system/widgets/content_scroll.dart';
 import 'package:imovies/presentation/home/widgets/section_error.dart';
 import 'package:imovies/presentation/home/widgets/wide_movie_card.dart';
+import 'package:imovies/presentation/routes/arguments/movie_details_arg.dart';
+import 'package:imovies/presentation/routes/routes.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -105,6 +107,13 @@ class _HomePageState extends State<HomePage> {
           list: data,
           title: topRatedMovies,
           handleImageUrl: (int index) => data[index].fullPosterPath(),
+          onPressed: (int index) => Navigator.pushNamed(
+            context,
+            movieDetails,
+            arguments: MovieDetailsArg(
+              movie: data[index],
+            ),
+          ),
         ),
         onLoading: ContentScroll.shimmer(topRatedMovies),
         onError: sectionError(),
@@ -115,6 +124,13 @@ class _HomePageState extends State<HomePage> {
           list: data,
           title: nowPlayingMovies,
           handleImageUrl: (int index) => data[index].fullPosterPath(),
+          onPressed: (int index) => Navigator.pushNamed(
+            context,
+            movieDetails,
+            arguments: MovieDetailsArg(
+              movie: data[index],
+            ),
+          ),
         ),
         onLoading: ContentScroll.shimmer(nowPlayingMovies),
         onError: sectionError(),
@@ -126,6 +142,7 @@ class _HomePageState extends State<HomePage> {
             title: popularPersons,
             handleImageUrl: (int index) => data[index].fullProfilePath(),
             handleTitle: (int index) => data[index].name,
+            onPressed: (int index) => null,
           ),
       onLoading: CircularContentScroll.shimmer(popularPersons),
       onError: sectionError());

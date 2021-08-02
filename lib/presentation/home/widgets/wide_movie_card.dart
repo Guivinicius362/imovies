@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:imovies/design_system/design_system.dart';
 import 'package:imovies/infrastructure/models/movie.dart';
+import 'package:imovies/presentation/routes/arguments/movie_details_arg.dart';
 import 'package:imovies/presentation/routes/routes.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -38,7 +39,10 @@ class WideMovieCard extends StatelessWidget {
         onTap: () => Navigator.pushNamed(
           context,
           movieDetails,
-          arguments: movies[index],
+          arguments: MovieDetailsArg(
+            movie: movies[index],
+            wide: true,
+          ),
         ),
         child: Stack(
           children: <Widget>[

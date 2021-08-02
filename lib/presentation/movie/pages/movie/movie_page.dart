@@ -3,17 +3,28 @@ import 'package:imovies/design_system/design_system.dart';
 import 'package:imovies/infrastructure/models/movie.dart';
 import 'package:imovies/presentation/movie/constants/movie_constants.dart';
 import 'package:imovies/presentation/movie/widgets/circular_clipper.dart';
+import 'package:imovies/presentation/routes/arguments/movie_details_arg.dart';
 
 class MoviePage extends StatefulWidget {
-  final Movie movie;
+  final MovieDetailsArg args;
 
-  MoviePage({required this.movie});
+  MoviePage({required this.args});
 
   @override
   _MoviePageState createState() => _MoviePageState();
 }
 
 class _MoviePageState extends State<MoviePage> {
+  late Movie _movie;
+  late bool _wide;
+
+  @override
+  void initState() {
+    _movie = widget.args.movie;
+    _wide = widget.args.wide;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +36,9 @@ class _MoviePageState extends State<MoviePage> {
               Container(
                 transform: Matrix4.translationValues(0.0, -50.0, 0.0),
                 child: Hero(
-                  tag: widget.movie.fullBackdropPath(),
+                  tag: _wide == true
+                      ? _movie.fullBackdropPath()
+                      : _movie.fullPosterPath(),
                   child: ClipShadowPath(
                     clipper: CircularClipper(),
                     shadow: Shadow(blurRadius: 20.0),
@@ -33,7 +46,11 @@ class _MoviePageState extends State<MoviePage> {
                       height: 400.0,
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      image: NetworkImage(widget.movie.fullBackdropPath()),
+                      image: NetworkImage(
+                        _wide == true
+                            ? _movie.fullBackdropPath()
+                            : _movie.fullPosterPath(),
+                      ),
                     ),
                   ),
                 ),
@@ -84,14 +101,14 @@ class _MoviePageState extends State<MoviePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  widget.movie.title.toUpperCase(),
+                  _movie.title.toUpperCase(),
                   style: titleStyle,
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 10.0),
                 SizedBox(height: 12.0),
                 Text(
-                  score(widget.movie.popularity.toString()),
+                  score(_movie.popularity.toString()),
                   style: subTitleStyle.copyWith(fontSize: 20),
                 ),
                 SizedBox(height: 15.0),
@@ -106,7 +123,7 @@ class _MoviePageState extends State<MoviePage> {
                         ),
                         SizedBox(height: 2.0),
                         Text(
-                          widget.movie.releaseDate ?? "-",
+                          _movie.releaseDate ?? "-",
                           style: subTitleStyle,
                         ),
                       ],
@@ -119,7 +136,7 @@ class _MoviePageState extends State<MoviePage> {
                         ),
                         SizedBox(height: 2.0),
                         Text(
-                          widget.movie.originalLanguage.toUpperCase(),
+                          _movie.originalLanguage.toUpperCase(),
                           style: subTitleStyle,
                         ),
                       ],
@@ -131,7 +148,7 @@ class _MoviePageState extends State<MoviePage> {
                   height: 120.0,
                   child: SingleChildScrollView(
                     child: Text(
-                      widget.movie.overview,
+                      _movie.overview,
                       style: TextStyle(
                         color: lightColor,
                       ),

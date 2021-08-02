@@ -4,6 +4,7 @@ import 'package:shimmer/shimmer.dart';
 
 typedef String? HandleImageUrl(int index);
 typedef String? HandleTitle(int index);
+typedef void OnPressed(int index);
 
 class CircularContentScroll extends StatelessWidget {
   final List list;
@@ -12,12 +13,14 @@ class CircularContentScroll extends StatelessWidget {
   final double imageWidth;
   final HandleImageUrl handleImageUrl;
   final HandleTitle handleTitle;
+  final OnPressed onPressed;
 
   CircularContentScroll({
     required this.list,
     required this.title,
     required this.handleImageUrl,
     required this.handleTitle,
+    required this.onPressed,
     this.imageHeight = 280.0,
     this.imageWidth = 280.0,
   });
@@ -45,39 +48,42 @@ class CircularContentScroll extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: list.length,
             itemBuilder: (BuildContext context, int index) {
-              return Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: 10.0,
-                  vertical: 20.0,
-                ),
-                width: imageWidth,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(180.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black54,
-                      offset: Offset(0.0, 4.0),
-                      blurRadius: 10.0,
-                    ),
-                  ],
-                ),
-                child: Stack(
-                  children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: getImage(index),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 24),
-                        child: Text(
-                          handleTitle(index) ?? "-",
-                          style: subTitleStyle,
+              return GestureDetector(
+                onTap: () => onPressed(index),
+                child: Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 10.0,
+                    vertical: 20.0,
+                  ),
+                  width: imageWidth,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(180.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black54,
+                        offset: Offset(0.0, 4.0),
+                        blurRadius: 10.0,
+                      ),
+                    ],
+                  ),
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: getImage(index),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 24),
+                          child: Text(
+                            handleTitle(index) ?? "-",
+                            style: subTitleStyle,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },
@@ -110,6 +116,7 @@ class CircularContentScroll extends StatelessWidget {
           imageWidth: 140.0,
           handleImageUrl: (int index) => null,
           handleTitle: (int index) => null,
+          onPressed: (int index) => null,
         ),
       );
 }
