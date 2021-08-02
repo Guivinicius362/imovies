@@ -3,20 +3,23 @@ import 'package:imovies/design_system/design_system.dart';
 import 'package:shimmer/shimmer.dart';
 
 typedef String? HandleImageUrl(int index);
+typedef String? HandleTitle(int index);
 
-class ContentScroll extends StatelessWidget {
+class CircularContentScroll extends StatelessWidget {
   final List list;
   final String title;
   final double imageHeight;
   final double imageWidth;
   final HandleImageUrl handleImageUrl;
+  final HandleTitle handleTitle;
 
-  ContentScroll({
+  CircularContentScroll({
     required this.list,
     required this.title,
     required this.handleImageUrl,
-    this.imageHeight = 260.0,
-    this.imageWidth = 140.0,
+    required this.handleTitle,
+    this.imageHeight = 280.0,
+    this.imageWidth = 280.0,
   });
 
   @override
@@ -49,18 +52,32 @@ class ContentScroll extends StatelessWidget {
                 ),
                 width: imageWidth,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(180.0),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black54,
                       offset: Offset(0.0, 4.0),
-                      blurRadius: 6.0,
+                      blurRadius: 10.0,
                     ),
                   ],
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: getImage(index),
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: getImage(index),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 24),
+                        child: Text(
+                          handleTitle(index) ?? "-",
+                          style: subTitleStyle,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               );
             },
@@ -70,15 +87,15 @@ class ContentScroll extends StatelessWidget {
     );
   }
 
-  Widget? getImage(int index) {
+  Widget getImage(int index) {
     final imageUrl = handleImageUrl(index);
-    if (imageUrl == null) return null;
+    if (imageUrl == null) return SizedBox.expand();
 
-    return Image(
-      image: NetworkImage(
+    return CircleAvatar(
+      radius: 150.0,
+      backgroundImage: NetworkImage(
         imageUrl,
       ),
-      fit: BoxFit.cover,
     );
   }
 
@@ -86,12 +103,13 @@ class ContentScroll extends StatelessWidget {
         baseColor: Colors.grey[300]!,
         highlightColor: Colors.grey[100]!,
         enabled: true,
-        child: ContentScroll(
+        child: CircularContentScroll(
           list: [1, 2, 3],
           title: title,
           imageHeight: 260.0,
           imageWidth: 140.0,
           handleImageUrl: (int index) => null,
+          handleTitle: (int index) => null,
         ),
       );
 }

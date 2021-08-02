@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:imovies/design_system/design_system.dart';
 import 'package:imovies/infrastructure/models/movie.dart';
-import 'package:imovies/presentation/home/widgets/circular_clipper.dart';
+import 'package:imovies/presentation/movie/constants/movie_constants.dart';
+import 'package:imovies/presentation/movie/widgets/circular_clipper.dart';
 
 class MoviePage extends StatefulWidget {
   final Movie movie;
@@ -88,16 +89,9 @@ class _MoviePageState extends State<MoviePage> {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 10.0),
-                // Text(
-                //   widget.movie.categories,
-                //   style: TextStyle(
-                //     color: lightColor54,
-                //     fontSize: 16.0,
-                //   ),
-                // ),
                 SizedBox(height: 12.0),
                 Text(
-                  'Score : ${widget.movie.popularity.toString()}',
+                  score(widget.movie.popularity.toString()),
                   style: subTitleStyle.copyWith(fontSize: 20),
                 ),
                 SizedBox(height: 15.0),
@@ -107,7 +101,7 @@ class _MoviePageState extends State<MoviePage> {
                     Column(
                       children: <Widget>[
                         Text(
-                          'Year',
+                          year,
                           style: titleStyle,
                         ),
                         SizedBox(height: 2.0),
@@ -120,7 +114,7 @@ class _MoviePageState extends State<MoviePage> {
                     Column(
                       children: <Widget>[
                         Text(
-                          'Language',
+                          language,
                           style: titleStyle,
                         ),
                         SizedBox(height: 2.0),

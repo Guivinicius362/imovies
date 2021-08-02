@@ -1,9 +1,12 @@
 import 'dart:convert';
 
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 import 'package:imovies/infrastructure/models/movie.dart';
 import 'package:imovies/infrastructure/models/response_wrapper.dart';
 import 'package:imovies/infrastructure/services/movie_service.dart';
+
+final getIt = GetIt.instance;
 
 class MovieRepository {
   final MovieService _movieService = getIt<MovieService>();

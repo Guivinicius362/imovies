@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:imovies/design_system/design_system.dart';
+import 'package:imovies/design_system/widgets/circular_content_scroll.dart';
 import 'package:imovies/infrastructure/models/movie.dart';
-import 'package:imovies/infrastructure/services/movie_service.dart';
+import 'package:imovies/infrastructure/models/person.dart';
 import 'package:imovies/presentation/home/pages/home/home_bloc.dart';
 import 'package:imovies/presentation/home/constants/home_constants.dart';
 import 'package:imovies/design_system/widgets/content_scroll.dart';
-import 'package:imovies/design_system/widgets/lazy_stream_builder.dart';
+import 'package:imovies/presentation/home/widgets/section_error.dart';
 import 'package:imovies/presentation/home/widgets/wide_movie_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
     _bloc.getPopularMovies();
     _bloc.getTopRatedMovies();
     _bloc.getNowPlayingMovies();
+    _bloc.getPopularPersons();
   }
 
   @override
@@ -39,18 +41,19 @@ class _HomePageState extends State<HomePage> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            mainColor.withOpacity(0.1),
             backgroundColor,
-            backgroundColor,
-            backgroundColor,
-            mainColor.withOpacity(0.1),
+            backgroundColor.withOpacity(0.75),
+            backgroundColor.withOpacity(0.25),
+            mainColor.withOpacity(0.25),
           ],
         ),
       ),
       child: Scaffold(
+        extendBody: true,
         extendBodyBehindAppBar: true,
         appBar: AppBar(
-          backgroundColor: backgroundColor.withOpacity(0.7),
+          brightness: Brightness.light,
+          backgroundColor: backgroundColor.withOpacity(0.5),
           title: _buildTitle(),
           elevation: 0,
         ),
@@ -60,6 +63,7 @@ class _HomePageState extends State<HomePage> {
             _buildPopularMovie(),
             _buildTopRatedMovie(),
             _buildNowPlayingMovie(),
+            _buildPopularPerson(),
           ],
         ),
       ),
@@ -75,65 +79,54 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildPopularMovie() => LazyStreamBuilder<List<Movie>>(
-        stream: _bloc.popularMovies.stream,
-        sucessBuilder: (BuildContext _, AsyncSnapshot snapshot) {
-          return Container(
-            height: 225.0,
-            width: double.infinity,
-            child: PageView.builder(
-              controller: _pageController,
-              itemCount: 10,
-              itemBuilder: (BuildContext context, int index) {
-                final item = snapshot.data;
-                return WideMovieCard(
-                  pageController: _pageController,
-                  movies: item,
-                  index: index,
-                );
-              },
-            ),
-          );
-        },
-        loadingBuilder: (BuildContext _, AsyncSnapshot snapshot) {
-          return WideMovieCard.shimmer();
-        },
-        erroBuilder: (BuildContext _, AsyncSnapshot snapshot) {
-          return Text(snapshot.error.toString());
-        },
+  Widget _buildPopularMovie() => _bloc.popularMovies.toBuild<List<Movie>>(
+        onSuccess: (data) => Container(
+          height: 225.0,
+          width: double.infinity,
+          child: PageView.builder(
+            controller: _pageController,
+            itemCount: 10,
+            itemBuilder: (BuildContext context, int index) {
+              final item = data;
+              return WideMovieCard(
+                pageController: _pageController,
+                movies: item,
+                index: index,
+              );
+            },
+          ),
+        ),
+        onLoading: WideMovieCard.shimmer(),
+        onError: sectionError(),
       );
 
-  Widget _buildTopRatedMovie() => LazyStreamBuilder<List<Movie>>(
-        stream: _bloc.topRatedMovies.stream,
-        sucessBuilder: (BuildContext _, AsyncSnapshot snapshot) {
-          final item = snapshot.data as List<Movie>;
-          return ContentScroll(
-            list: item,
-            title: topRatedMovies,
-            handleImageUrl: (int index) => item[index].fullPosterPath(),
-          );
-        },
-        loadingBuilder: (BuildContext _, AsyncSnapshot snapshot) =>
-            ContentScroll.shimmer(topRatedMovies),
-        erroBuilder: (BuildContext _, AsyncSnapshot snapshot) {
-          return Text(snapshot.error.toString());
-        },
+  Widget _buildTopRatedMovie() => _bloc.topRatedMovies.toBuild<List<Movie>>(
+        onSuccess: (data) => ContentScroll(
+          list: data,
+          title: topRatedMovies,
+          handleImageUrl: (int index) => data[index].fullPosterPath(),
+        ),
+        onLoading: ContentScroll.shimmer(topRatedMovies),
+        onError: sectionError(),
       );
 
-  Widget _buildNowPlayingMovie() => LazyStreamBuilder<List<Movie>>(
-        stream: _bloc.nowPlayingMovies.stream,
-        sucessBuilder: (BuildContext _, AsyncSnapshot snapshot) {
-          final item = snapshot.data as List<Movie>;
-          return ContentScroll(
-            list: item,
-            title: nowPlayingMovies,
-            handleImageUrl: (int index) => item[index].fullPosterPath(),
-          );
-        },
-        loadingBuilder: (BuildContext _, AsyncSnapshot snapshot) =>
-            ContentScroll.shimmer(nowPlayingMovies),
-        erroBuilder: (BuildContext _, AsyncSnapshot snapshot) {
-          return Text(snapshot.error.toString());
-        },
+  Widget _buildNowPlayingMovie() => _bloc.nowPlayingMovies.toBuild<List<Movie>>(
+        onSuccess: (data) => ContentScroll(
+          list: data,
+          title: nowPlayingMovies,
+          handleImageUrl: (int index) => data[index].fullPosterPath(),
+        ),
+        onLoading: ContentScroll.shimmer(nowPlayingMovies),
+        onError: sectionError(),
       );
+
+  Widget _buildPopularPerson() => _bloc.popularPersons.toBuild<List<Person>>(
+      onSuccess: (data) => CircularContentScroll(
+            list: data,
+            title: popularPersons,
+            handleImageUrl: (int index) => data[index].fullProfilePath(),
+            handleTitle: (int index) => data[index].name,
+          ),
+      onLoading: CircularContentScroll.shimmer(popularPersons),
+      onError: sectionError());
 }

@@ -1,53 +1,40 @@
+import 'package:get_it/get_it.dart';
 import 'package:imovies/infrastructure/models/imovies_stream.dart';
 import 'package:imovies/infrastructure/models/movie.dart';
+import 'package:imovies/infrastructure/models/person.dart';
 import 'package:imovies/infrastructure/repositories/movie_repository.dart';
-import 'package:imovies/infrastructure/services/movie_service.dart';
+import 'package:imovies/infrastructure/repositories/person_repository.dart';
+
+final getIt = GetIt.instance;
 
 class HomeBloc {
-  final MovieRepository _repo = getIt<MovieRepository>();
+  final MovieRepository _movieRepo = getIt();
+  final PersonRepository _personRepo = getIt();
 
   final IMoviesStream<List<Movie>> popularMovies = IMoviesStream<List<Movie>>();
+
   final IMoviesStream<List<Movie>> topRatedMovies =
       IMoviesStream<List<Movie>>();
+
   final IMoviesStream<List<Movie>> nowPlayingMovies =
       IMoviesStream<List<Movie>>();
 
-  void getPopularMovies() => _repo
-      .getPopularMovies()
-      .then(
-        (value) => popularMovies.add(
-          value,
-        ),
-      )
-      .onError(
-        (error, stackTrace) => popularMovies.addError(
-          error,
-        ),
+  final IMoviesStream<List<Person>> popularPersons =
+      IMoviesStream<List<Person>>();
+
+  void getPopularMovies() => popularMovies.handleFuture(
+        _movieRepo.getPopularMovies(),
       );
 
-  void getTopRatedMovies() => _repo
-      .getTopRatedMovies()
-      .then(
-        (value) => topRatedMovies.add(
-          value,
-        ),
-      )
-      .onError(
-        (error, stackTrace) => topRatedMovies.addError(
-          error,
-        ),
+  void getTopRatedMovies() => topRatedMovies.handleFuture(
+        _movieRepo.getTopRatedMovies(),
       );
 
-  void getNowPlayingMovies() => _repo
-      .getNowPlayingMovies()
-      .then(
-        (value) => nowPlayingMovies.add(
-          value,
-        ),
-      )
-      .onError(
-        (error, stackTrace) => nowPlayingMovies.addError(
-          error,
-        ),
+  void getNowPlayingMovies() => nowPlayingMovies.handleFuture(
+        _movieRepo.getNowPlayingMovies(),
+      );
+
+  void getPopularPersons() => popularPersons.handleFuture(
+        _personRepo.getPopularMovies(),
       );
 }

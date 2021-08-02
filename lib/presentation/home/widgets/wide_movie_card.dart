@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:imovies/design_system/design_system.dart';
 import 'package:imovies/infrastructure/models/movie.dart';
-import 'package:imovies/presentation/home/pages/movie/movie_page.dart';
+import 'package:imovies/presentation/routes/routes.dart';
 import 'package:shimmer/shimmer.dart';
 
 class WideMovieCard extends StatelessWidget {
@@ -34,11 +35,10 @@ class WideMovieCard extends StatelessWidget {
         );
       },
       child: GestureDetector(
-        onTap: () => Navigator.push(
+        onTap: () => Navigator.pushNamed(
           context,
-          MaterialPageRoute(
-            builder: (_) => MoviePage(movie: movies[index]),
-          ),
+          movieDetails,
+          arguments: movies[index],
         ),
         child: Stack(
           children: <Widget>[
@@ -79,11 +79,7 @@ class WideMovieCard extends StatelessWidget {
                 width: 250.0,
                 child: Text(
                   movies[index].title.toUpperCase(),
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: titleStyle.copyWith(color: lightColor),
                 ),
               ),
             ),
