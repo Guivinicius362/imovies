@@ -1,3 +1,4 @@
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:imovies/design_system/design_system.dart';
 import 'package:shimmer/shimmer.dart';
@@ -21,8 +22,8 @@ class CircularContentScroll extends StatelessWidget {
     required this.handleImageUrl,
     required this.handleTitle,
     required this.onPressed,
-    this.imageHeight = 280.0,
-    this.imageWidth = 280.0,
+    this.imageHeight = 260.0,
+    this.imageWidth = 230.0,
   });
 
   @override
@@ -76,9 +77,20 @@ class CircularContentScroll extends StatelessWidget {
                         alignment: Alignment.bottomCenter,
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 24),
-                          child: Text(
-                            handleTitle(index) ?? "-",
-                            style: subTitleStyle,
+                          child: Container(
+                            width: 140,
+                            height: 28,
+                            color: backgroundColor,
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Text(
+                                  handleTitle(index) ?? "-",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: subTitleStyle,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -97,10 +109,13 @@ class CircularContentScroll extends StatelessWidget {
     final imageUrl = handleImageUrl(index);
     if (imageUrl.isEmpty) return SizedBox.expand();
 
-    return CircleAvatar(
-      radius: 150.0,
-      backgroundImage: NetworkImage(
-        imageUrl,
+    return ClipOval(
+      child: FancyShimmerImage(
+        boxDecoration: BoxDecoration(
+          shape: BoxShape.circle,
+        ),
+        imageUrl: imageUrl,
+        boxFit: BoxFit.fitWidth,
       ),
     );
   }

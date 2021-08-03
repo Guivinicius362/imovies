@@ -1,3 +1,4 @@
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:imovies/design_system/design_system.dart';
 import 'package:shimmer/shimmer.dart';
@@ -80,11 +81,8 @@ class ContentScroll extends StatelessWidget {
     final imageUrl = handleImageUrl(index);
     if (imageUrl.isEmpty) return null;
 
-    return Image(
-      image: NetworkImage(
-        imageUrl,
-      ),
-      fit: BoxFit.cover,
+    return FancyShimmerImage(
+      imageUrl: imageUrl,
     );
   }
 

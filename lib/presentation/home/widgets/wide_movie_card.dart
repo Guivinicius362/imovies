@@ -1,3 +1,4 @@
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:imovies/design_system/design_system.dart';
 import 'package:imovies/infrastructure/models/movie.dart';
@@ -89,16 +90,17 @@ class WideMovieCard extends StatelessWidget {
 
   Widget getImage() {
     if (movies[index].backdropPath != null) {
-      return Image(
-        image: NetworkImage(
-          movies[index].fullBackdropPath(),
+      return SizedBox(
+        height: 220,
+        child: FancyShimmerImage(
+          shimmerBaseColor: Colors.grey[300]!,
+          shimmerHighlightColor: Colors.grey[100]!,
+          imageUrl: movies[index].fullBackdropPath(),
         ),
-        height: 220.0,
-        fit: BoxFit.fill,
       );
     }
     return Container(
-      color: Colors.red,
+      color: Colors.black12,
     );
   }
 

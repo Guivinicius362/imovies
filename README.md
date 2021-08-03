@@ -1,6 +1,6 @@
 # imovies
  
-Projeto com fim de demonstração de arquitetura.
+Projeto com fim de demonstração de arquitetura nem todas as features possiveis foram implementadas.
 ## O App
  
 <img src="screenshots/ss1.png?raw=true" width="250"> <img src="screenshots/ss2.png?raw=true" width="250"> <img src="screenshots/ss3.png?raw=true" width="250">
